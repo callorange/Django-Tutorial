@@ -1,12 +1,24 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template import loader
 
 from .models import Question
 
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    return render(request, 'polls/index.html', {'latest_question_list': latest_question_list} )
+    context = {
+        'latest_question_list': latest_question_list,
+    }
+
+    # 바로 render
+    return render(request, 'polls/index.html', context )
+
+    # 템플릿 로드후 응답
+    # template = loader.get_template('poll/index.html')
+    # return HttpResponse(template.render(context, request))
+
+    # 일반 텍스트로 응답
     # output = ', '.join([q.question_text for q in latest_question_list])
     # return HttpResponse(output)
 
