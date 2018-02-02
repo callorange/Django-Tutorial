@@ -9,17 +9,22 @@
 </head>
 <body>
     <a href="{% url 'polls:index' %}">Home</a>
-    {% if question %}
-        <h1>{{ question.question_text }}</h1>
-        <ul>
-            {% for choice in question.choice_set.all %}
-            <li>
-                <a href="">{{ choice.choice_text }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No polls are available.</p>
+
+    <h1>{{ question.question_text }} - Details</h1>
+    
+    {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
     {% endif %}
+
+    <form action="{% url 'polls:vote' question.pk %}" method="post">
+        {% csrf_token %}
+        
+        {% for choice in question.choice_set.all %}
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+        {% endfor %}
+
+        <button type="submit" value="Vote">Vote</button>
+    </form>
 </body>
 </html>
