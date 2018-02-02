@@ -8,12 +8,12 @@
     <title>Polls</title>
 </head>
 <body>
-    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'polls:index' %}">Home</a>
     {% if latest_question_list %}
     <ul>
         {% for question in latest_question_list %}
         <li>
-            <a href="{% url 'detail' question.id %}">{{ question.question_text }}</a>
+            <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
         </li>
         {% endfor %}
     </ul>
