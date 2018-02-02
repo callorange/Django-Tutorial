@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render
 from django.template import loader
 
@@ -23,7 +23,10 @@ def index(request):
     # return HttpResponse(output)
 
 def detail(request, question_id):
-    question = Question.objects.get(pk=question_id)
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404('Question does not exist')
     context = {
         'question': question,
     }
